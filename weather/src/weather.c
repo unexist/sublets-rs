@@ -13,28 +13,20 @@
 #include "extism-pdk.h"
 #include <stdint.h>
 
-#define Greet_Max_Input 1024
-static const char Greeting[] = "Hello, ";
+int32_t EXTISM_EXPORTED_FUNCTION(run) {
+  const char *reqStr = "{\
+    \"method\": \"GET\",\
+    \"url\": \"https://api.open-meteo.com/v1/forecast?latitude=51.4566&longitude=7.0123&daily=temperature_2m_max&forecast_days=1\"\
+  }";
 
-int32_t EXTISM_EXPORTED_FUNCTION(greet) {
-  uint64_t inputLen = extism_input_length();
-  if (inputLen > Greet_Max_Input) {
-    inputLen = Greet_Max_Input;
+  ExtismHandle req = extism_alloc_buf_from_sz(reqStr);
+  ExtismHandle res = extism_http_request(req, 0);
+
+  if (200 != extism_http_status_code()) {
+    return -1;
   }
 
-  // Load input
-  static uint8_t inputData[Greet_Max_Input];
-  extism_load_input(0, inputData, inputLen);
+  extism_output_set_from_handle(res, 0, extism_length(res));
 
-  // Allocate memory to store greeting and name
-  const uint64_t greetingLen = sizeof(Greeting) - 1;
-  const uint64_t outputLen = greetingLen + inputLen;
-
-  ExtismHandle handle = extism_alloc(outputLen);
-  extism_store_to_handle(handle, 0, Greeting, greetingLen);
-  extism_store_to_handle(handle, greetingLen, inputData, inputLen);
-
-  // Set output
-  extism_output_set_from_handle(handle, 0, outputLen);
   return 0;
 }
