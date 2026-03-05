@@ -1,5 +1,5 @@
 //
-// @package subtle-rs
+// @package sublets-rs
 //
 // @file Time plugin functions
 // @copyright (c) 2025-present Christoph Kappel <christoph@unexist.dev>

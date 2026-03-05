@@ -1,7 +1,7 @@
 #![no_main]
 
 ///
-/// @package subtle-rs
+/// @package sublets-rs
 ///
 /// @file Battery plugin functions
 /// @copyright (c) 2026-present Christoph Kappel <christoph@unexist.dev>
