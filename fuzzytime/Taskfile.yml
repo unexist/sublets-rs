@@ -7,7 +7,7 @@ vars:
 tasks:
   build:
     cmds:
-      - tinygo build -target wasi fuzzytime.go
+      - tinygo build -target wasi src/fuzzytime.go
 
   optimize:
     cmds:
