@@ -2,20 +2,20 @@ version: '3'
 
 includes:
   battery:
-    taskfile: plugins/battery/Taskfile.yml
-    dir: plugins/battery
+    taskfile: battery/Taskfile.yml
+    dir: battery
 
   fuzzytime:
-    taskfile: plugins/fuzzytime/Taskfile.yml
-    dir: plugins/fuzzytime
+    taskfile: fuzzytime/Taskfile.yml
+    dir: fuzzytime
 
   mem:
-    taskfile: plugins/mem/Taskfile.yml
-    dir: plugins/mem
+    taskfile: mem/Taskfile.yml
+    dir: mem
 
   time:
-    taskfile: plugins/time/Taskfile.yml
-    dir: plugins/time
+    taskfile: time/Taskfile.yml
+    dir: time
 
 tasks:
   plugins:
