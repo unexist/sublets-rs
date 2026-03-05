@@ -1,0 +1,7 @@
+= sublets-rs
+
+Applets for the subtle-rs window manager
+
+== Links
+
+- https://subtle.rs
