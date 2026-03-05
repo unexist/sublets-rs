@@ -19,7 +19,7 @@ tasks:
 
   run:
     cmds:
-      - extism call ./{{.BINARY}}.wasm run
+      - extism call ./{{.BINARY}}.wasm run --allow-host api.open-meteo.com
 
   sizes:
     cmds:
