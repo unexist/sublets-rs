@@ -2,12 +2,12 @@ version: '3'
 
 vars:
   BINARY: 'weather'
-  DISTPATH: './zig-out/bin'
+  DISTPATH: '.'
 
 tasks:
   build:
     cmds:
-      - clang -o {{.BINARY}}.wasm --target=wasm32-unknown-unknown -nostdlib -Wl,--no-entry weather.c
+      - clang -o {{.BINARY}}.wasm --target=wasm32-unknown-unknown -nostdlib -Wl,--no-entry src/weather.c -Isrc
 
   optimize:
     cmds:
