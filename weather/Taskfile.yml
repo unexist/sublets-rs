@@ -1,0 +1,32 @@
+version: '3'
+
+vars:
+  BINARY: 'weather'
+  DISTPATH: './zig-out/bin'
+
+tasks:
+  build:
+    cmds:
+      - clang -o {{.BINARY}}.wasm --target=wasm32-unknown-unknown -nostdlib -Wl,--no-entry weather.c
+
+  optimize:
+    cmds:
+      - wasm-opt -Os {{.DISTPATH}}/{{.BINARY}}.wasm --output ./{{.BINARY}}.wasm
+
+  strip:
+    cmds:
+      - wasm-strip ./{{.BINARY}}.wasm
+
+  run:
+    cmds:
+      - extism call ./{{.BINARY}}.wasm run
+
+  sizes:
+    cmds:
+      - du -shc **/*.wasm
+
+  default:
+    cmds:
+      - task: build
+      - task: optimize
+      - task: strip

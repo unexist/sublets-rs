@@ -17,6 +17,10 @@ includes:
     taskfile: time/Taskfile.yml
     dir: time
 
+  weather:
+    taskfile: weather/Taskfile.yml
+    dir: weather
+
 tasks:
   plugins:
       cmds:
@@ -24,3 +28,4 @@ tasks:
         - task: fuzzytime:default
         - task: mem:default
         - task: time:default
+        - task: weather:default
