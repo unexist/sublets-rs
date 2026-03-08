@@ -21,7 +21,8 @@ extern "ExtismHost" {
 
 #[plugin_fn]
 pub unsafe fn run<'a>() -> FnResult<String> {
-    let values: String = unsafe { get_battery("1".into())? };
+    let battery_slot = config::get("battery_slot")?.unwrap_or("1".to_string());
+    let values: String = unsafe { get_battery(battery_slot)? };
 
     info!("battery {}", values);
 

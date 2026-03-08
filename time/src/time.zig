@@ -20,7 +20,8 @@ pub extern "extism:host/user" fn get_formatted_time(u64) u64;
 export fn run() i32 {
     const plugin = Plugin.init(alloc);
 
-    const format = "%H:%M:%S";
+    const format = plugin.getConfig("format") catch unreachable orelse "%H:%M:%S";
+
     const mem = plugin.allocateBytes(format);
     defer mem.free();
 
