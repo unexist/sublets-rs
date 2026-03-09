@@ -7,7 +7,7 @@ vars:
 tasks:
   build:
     cmds:
-      - clang -o {{.BINARY}}.wasm --target=wasm32-unknown-unknown -nostdlib -Wl,--no-entry src/weather.c -Isrc
+      - clang -o {{.BINARY}}.wasm --target=wasm32-unknown-unknown -Wl,--no-entry src/weather.c
 
   optimize:
     cmds:
@@ -19,7 +19,10 @@ tasks:
 
   run:
     cmds:
-      - extism call ./{{.BINARY}}.wasm run --allow-host api.open-meteo.com
+      - |
+        extism call ./{{.BINARY}}.wasm run --allow-host api.open-meteo.com \
+          --config latitude=51.4566 \
+          --config longitude=7.0123
 
   sizes:
     cmds:
