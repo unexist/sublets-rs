@@ -15,7 +15,7 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#include <string.h>
+#include <stdlib.h>
 
 char *get_config_key(const char *key, const char *fallback) {
     ExtismHandle value = extism_config_get(extism_alloc_buf_from_sz(key));
@@ -25,7 +25,7 @@ char *get_config_key(const char *key, const char *fallback) {
     }
 
     const uint64_t len = extism_length(value);
-    char *data = (char *)extism_malloc(value);
+    char *data = (char *)malloc(value);
 
     if (NULL == data) {
         ExtismHandle err = extism_alloc_buf_from_sz("OOM");
@@ -47,6 +47,10 @@ int32_t EXTISM_EXPORTED_FUNCTION(run) {
     char *longitude = get_config_key("longitude", "7.0123");
 
     if (NULL == latitude || NULL == longitude) {
+        ExtismHandle err = extism_alloc_buf_from_sz("Latitude or longitude missing");
+
+        extism_error_set(err);
+
         return -1;
     }
 
@@ -57,17 +61,26 @@ int32_t EXTISM_EXPORTED_FUNCTION(run) {
         \"url\": \"https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&daily=temperature_2m_max&forecast_days=1\"\
     }", latitude, longitude);
 
-    ExtismHandle req = extism_alloc_buf_from_sz(&buf);
+    ExtismHandle req = extism_alloc_buf_from_sz(buf);
+
+    extism_log_debug(req);
+
     ExtismHandle res = extism_http_request(req, 0);
 
+    extism_log_debug(res);
+
     if (200 != extism_http_status_code()) {
+        ExtismHandle err = extism_alloc_buf_from_sz("HTTP call failed");
+
+        extism_error_set(err);
+
         return -1;
     }
 
     extism_output_set_from_handle(res, 0, extism_length(res));
 
-    extism_free(latitude);
-    extism_free(longitude);
+    free(latitude);
+    free(longitude);
 
     return 0;
 }
