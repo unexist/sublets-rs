@@ -29,10 +29,10 @@ tasks:
     cmds:
       - |
         extism call --wasi \
-          --log-level=debug \
           --allow-host api.open-meteo.com \
           --config latitude=51.4566 \
           --config longitude=7.0123 \
+          --log-level=debug \
           ./{{.BINARY}}.wasm run
 
   sizes:
