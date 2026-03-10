@@ -16,6 +16,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 static const char *convert_to_char(ExtismHandle handle) {
     const uint64_t len = extism_length(handle);
@@ -66,6 +67,9 @@ int32_t EXTISM_EXPORTED_FUNCTION(run) {
         \"url\": \"https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&daily=temperature_2m_max&forecast_days=1\"\
     }", latitude, longitude);
 
+    free((void *)latitude);
+    free((void *)longitude);
+
     /* Run HTTP request */
     ExtismHandle req = extism_alloc_buf_from_sz(buf);
     ExtismHandle res = extism_http_request(req, 0);
@@ -79,12 +83,30 @@ int32_t EXTISM_EXPORTED_FUNCTION(run) {
     }
 
     /* Parse reply */
+    const char *json = convert_to_char(res);
 
+    extism_free(req);
 
-    extism_output_set_from_handle(res, 0, extism_length(res));
+    if (NULL != json) {
+        uint8_t i = 0;
+        char buf[10] = { 0 };
 
-    free((void *)latitude);
-    free((void *)longitude);
+        for (char *c = strrchr(json, '['); *c != ']' && *c != '\0'; ++c) {
+            buf[i++] = *c;
+        }
+
+        ExtismHandle out = extism_alloc_buf_from_sz(buf);
+
+        extism_output_set_from_handle(out, 0, extism_length(out));
+
+        free((void *)json);
+    } else {
+        ExtismHandle err = extism_alloc_buf_from_sz("Temperature not found");
+
+        extism_error_set(err);
+
+        return -1;
+    }
 
     return 0;
 }
