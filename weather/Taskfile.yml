@@ -32,6 +32,7 @@ tasks:
           --allow-host api.open-meteo.com \
           --config latitude=51.4566 \
           --config longitude=7.0123 \
+          --config unit=C \
           --log-level=debug \
           ./{{.BINARY}}.wasm run
 
