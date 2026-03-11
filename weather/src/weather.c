@@ -23,7 +23,7 @@ static const char *convert_to_char(ExtismHandle handle) {
     char *data = (char *)malloc(len + 1);
 
     if (NULL == data) {
-        ExtismHandle err = extism_alloc_buf_from_sz("OOM");
+        ExtismHandle err = extism_alloc_buf_from_sz("Out of memory");
 
         extism_error_set(err);
 
@@ -47,32 +47,44 @@ static const char *get_config_key(const char *key, const char *fallback) {
     return convert_to_char(value);
 }
 
+static const char *REQUEST_URL = "{\
+    \"method\": \"GET\",\
+    \"url\": \"https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&daily=temperature_2m_max&forecast_days=1&temperature_unit=%s\"\
+}";
+
 int32_t EXTISM_EXPORTED_FUNCTION(run) {
     /* Assemble request */
     const char *latitude = get_config_key("latitude", "51.4566");
     const char *longitude = get_config_key("longitude", "7.0123");
+    const char *unit = get_config_key("unit", "C");
 
-    if (NULL == latitude || NULL == longitude) {
-        ExtismHandle err = extism_alloc_buf_from_sz("Latitude or longitude missing");
+    if (NULL == latitude || NULL == longitude || NULL == unit) {
+        ExtismHandle err = extism_alloc_buf_from_sz("Out of memory");
 
         extism_error_set(err);
+
+        if (latitude) free((void *)latitude);
+        if (longitude) free((void *)longitude);
+        if (unit) free((void *)unit);
 
         return -1;
     }
 
+    const bool use_fahrenheit = (0 == strncmp(unit, "F", 1));
+
+    /* Prepare and run HTTP request */
     char buf[255] = { 0 };
 
-    sprintf(buf, "{\
-        \"method\": \"GET\",\
-        \"url\": \"https://api.open-meteo.com/v1/forecast?latitude=%s&longitude=%s&daily=temperature_2m_max&forecast_days=1\"\
-    }", latitude, longitude);
+    sprintf(buf, REQUEST_URL, latitude, longitude,
+        use_fahrenheit ? "fahrenheit" : "celsius");
 
     free((void *)latitude);
     free((void *)longitude);
 
-    /* Run HTTP request */
     ExtismHandle req = extism_alloc_buf_from_sz(buf);
     ExtismHandle res = extism_http_request(req, 0);
+
+    extism_free(req);
 
     if (200 != extism_http_status_code()) {
         ExtismHandle err = extism_alloc_buf_from_sz("HTTP call failed");
@@ -85,15 +97,15 @@ int32_t EXTISM_EXPORTED_FUNCTION(run) {
     /* Parse reply */
     const char *json = convert_to_char(res);
 
-    extism_free(req);
-
     if (NULL != json) {
         uint8_t i = 0;
         char buf[10] = { 0 };
 
-        for (char *c = strrchr(json, '['); *c != ']' && *c != '\0'; ++c) {
+        for (char *c = strrchr(json, '['); *++c != ']' && *c != '\0';) {
             buf[i++] = *c;
         }
+
+        buf[i++] = use_fahrenheit ? 'F' : 'C';
 
         ExtismHandle out = extism_alloc_buf_from_sz(buf);
 
