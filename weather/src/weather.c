@@ -18,6 +18,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Convert data behind Extism handle to char on the heap
+ * @param  handle  Handle to convert
+ * @return Either value on success; otherwise NULL
+ **/
+
 static const char *convert_to_char(ExtismHandle handle) {
     const uint64_t len = extism_length(handle);
     char *data = (char *)malloc(len + 1);
@@ -36,6 +42,13 @@ static const char *convert_to_char(ExtismHandle handle) {
 
     return data;
 }
+
+/**
+ * Get config key and use fallback if not found
+ * @param  key       Key to fetch
+ * @param  fallback  Value to return if not found
+ * @return Either value if found; otherwise fallback
+ */
 
 static const char *get_config_key(const char *key, const char *fallback) {
     ExtismHandle value = extism_config_get(extism_alloc_buf_from_sz(key));
