@@ -6,7 +6,7 @@ Applets for the subtle-rs window manager
 
 |===
 | Name | Language | Configuration | Description
-|
+
 | battery
 | Rust
 a| 
