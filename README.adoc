@@ -2,6 +2,54 @@
 
 Applets for the subtle-rs window manager
 
+== Sublets
+
+|===
+| Name | Language | Configuration | Description
+|
+| battery
+| Rust
+a| 
+[source,json]
+----
+{ battery_slot: 1 }
+----
+| Simple battery monitor in percent
+
+| cpu
+| Haskell
+| None
+| Simple cpu monitor
+
+| fuzzytime
+| Golang
+| None
+| Print fuzzy time like: Ten to three
+
+| mem
+| JavaScript
+| None
+| Simple memory usage printer free/used
+
+| time
+| Zig
+a|
+[source,json]
+----
+{ format: "%H:%M:%S" }
+----
+| Simple time formatter 
+
+| weather
+| C
+a|
+[source,json]
+----
+{ latitude: 51.4566, longitude: 7.0.0123, unit: "C: }
+----
+| Simple weather printer based on <https://open-meteo.com>
+|===
+
 == Links
 
 - https://subtle.rs
