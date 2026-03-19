@@ -21,6 +21,10 @@ includes:
     taskfile: weather/Taskfile.yml
     dir: weather
 
+  cpu:
+    taskfile: cpu/Taskfile.yml
+    dir: cpu
+
 tasks:
   plugins:
       cmds:
@@ -29,3 +33,4 @@ tasks:
         - task: mem:default
         - task: time:default
         - task: weather:default
+        - task: cpu:default
