@@ -1,13 +1,18 @@
 version: '3'
 
 vars:
-  BINARY: 'fuzzytime'
-  DISTPATH: '.'
+  BINARY: 'cpu'
+  DISTPATH: 'dist-newstyle/**/build/cpu'
+
+env:
+  GHC_WASM_PATH: '{{.HOME}}/.ghc-wasm'
+  GHC_CABAL_PATH: '{{.GHC_WASM_PATH}}/wasm32-wasi-cabal'
 
 tasks:
   build:
     cmds:
-      - tinygo build -target wasi src/fuzzytime.go
+      - |
+        {{.GHC_CABAL_PATH}}/bin/wasm32-wasi-cabal build
 
   optimize:
     cmds:
@@ -19,11 +24,11 @@ tasks:
 
   run:
     cmds:
-      - extism call ./{{.BINARY}}-unopt.wasm run
+      - extism call --wasi ./{{.BINARY}}.wasm run
 
-  sizes:
+  install:
     cmds:
-      - du -shc **/*.wasm
+      - curl https://gitlab.haskell.org/haskell-wasm/ghc-wasm-meta/-/raw/master/bootstrap.sh | sh
 
   default:
     cmds:

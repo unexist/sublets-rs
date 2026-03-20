@@ -11,7 +11,7 @@ cabal-version:      3.0
 --   http://haskell.org/cabal/users-guide/
 --
 -- The name of the package.
-name:               cpu
+name:               cpu-sublet
 
 -- The package version.
 -- See the Haskell package versioning policy (PVP) for standards
@@ -71,7 +71,9 @@ executable cpu
     -- other-extensions:
 
     -- Other library packages from which modules are imported.
-    build-depends:    base ^>=4.20.2.0, extism-pdk
+    build-depends:
+        base >= 4.15.0 && < 5,
+        extism-pdk
 
     -- Directories containing source files.
     hs-source-dirs:   src
