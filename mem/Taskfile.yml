@@ -21,10 +21,6 @@ tasks:
     cmds:
       - extism call ./{{.BINARY}}.wasm run --wasi
 
-  sizes:
-    cmds:
-      - du -shc **/*.wasm
-
   default:
     cmds:
       - task: build

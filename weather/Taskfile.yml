@@ -36,10 +36,6 @@ tasks:
           --log-level=debug \
           ./{{.BINARY}}.wasm run
 
-  sizes:
-    cmds:
-      - du -shc **/*.wasm
-
   curl:
       cmds:
         - curl -L "https://api.open-meteo.com/v1/forecast?latitude=51.4566&longitude=7.0123&daily=temperature_2m_max&forecast_days=1" | jq .

@@ -26,6 +26,10 @@ includes:
     dir: cpu
 
 tasks:
+  sizes:
+    cmds:
+      - du -shc **/*.wasm
+
   plugins:
       cmds:
         - task: battery:default
