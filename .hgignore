@@ -19,6 +19,9 @@ target/
 **/target/*
 proptest-regressions/
 
+# Haskell
+**/dist-newstyle/*
+
 # Node
 **/dist/
 **/node_modules/
