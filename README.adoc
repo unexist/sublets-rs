@@ -1,6 +1,6 @@
 = sublets-rs
 
-Applets for the subtle-rs window manager
+Wasm based applets for the subtle-rs window manager
 
 == Sublets
 
