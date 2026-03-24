@@ -5,6 +5,10 @@ includes:
     taskfile: battery/Taskfile.yml
     dir: battery
 
+  cpu:
+    taskfile: cpu/Taskfile.yml
+    dir: cpu
+
   fuzzytime:
     taskfile: fuzzytime/Taskfile.yml
     dir: fuzzytime
@@ -17,13 +21,14 @@ includes:
     taskfile: time/Taskfile.yml
     dir: time
 
+  uptime:
+    taskfile: uptime/Taskfile.yml
+    dir: uptime
+
   weather:
     taskfile: weather/Taskfile.yml
     dir: weather
 
-  cpu:
-    taskfile: cpu/Taskfile.yml
-    dir: cpu
 
 tasks:
   sizes:
@@ -33,8 +38,9 @@ tasks:
   plugins:
       cmds:
         - task: battery:default
+        - task: cpu:default
         - task: fuzzytime:default
         - task: mem:default
         - task: time:default
+        - task: uptime:default
         - task: weather:default
-        - task: cpu:default
