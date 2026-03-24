@@ -1,7 +1,14 @@
-///|
-/// Entry point for the CLI or runnable program in this template.
-/// Keep main focused; move logic into the library package.
-/// Run with `moon run cmd/main` from the project root.
+//
+// @package sublets-rs
+//
+// @file Spotify plugin functions
+// @copyright (c) 2026-present Christoph Kappel <christoph@unexist.dev>
+// @version $Id$
+//
+// This program can be distributed under the terms of the GNU GPLv3.
+// See the file LICENSE for details.
+//
+
 fn main {
   println("Hello")
 }
