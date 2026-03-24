@@ -12,6 +12,7 @@
 #include <stdint.h>
 
 #define IMPORT(a, b) __attribute__((import_module(a), import_name(b)))
+
 IMPORT("extism:host/user", "get_cpu")
 uint32_t get_cpu_impl(void);
 
