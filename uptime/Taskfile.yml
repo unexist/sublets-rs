@@ -4,18 +4,11 @@ vars:
   BINARY: 'uptime'
   DISTPATH: '.'
 
-env:
-  WASI_SDK_PATH: '/opt/wasi-sdk'
-
 tasks:
   build:
     cmds:
       - |
-        {{.WASI_SDK_PATH}}/bin/clang -O2 -o {{.BINARY}}.wasm \
-          --sysroot={{.WASI_SDK_PATH}}/share/wasi-sysroot \
-          --target=wasm32-wasi \
-          -mexec-model=reactor \
-          src/weather.c
+        extism-py src/uptime.py -o {{.BINARY}}.wasm
 
   optimize:
     cmds:
@@ -27,23 +20,11 @@ tasks:
 
   run:
     cmds:
-      - |
-        extism call --wasi \
-          --allow-host api.open-meteo.com \
-          --config latitude=51.4566 \
-          --config longitude=7.0123 \
-          --config unit=C \
-          --log-level=debug \
-          ./{{.BINARY}}.wasm run
-
-  curl:
-      cmds:
-        - curl -L "https://api.open-meteo.com/v1/forecast?latitude=51.4566&longitude=7.0123&daily=temperature_2m_max&forecast_days=1" | jq .
+      - extism call --wasi \ --log-level=debug \ ./{{.BINARY}}.wasm run
 
   install:
       cmds:
-        - curl -LO https://github.com/WebAssembly/wasi-sdk/releases/download/wasi-sdk-30/wasi-sdk-30.0-x86_64-linux.deb
-        - sudo dpkg -i ./wasi-sdk-30.0-x86_64-linux.deb
+        - curl -Ls https://raw.githubusercontent.com/extism/python-pdk/main/install.sh | bash
 
   default:
     cmds:
