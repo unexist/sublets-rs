@@ -52,7 +52,8 @@ build-type:         Simple
 extra-doc-files:    ../README.adoc
 
 -- Extra source files to be distributed with the package, such as examples, or a tutorial module.
--- extra-source-files:
+extra-source-files
+    c-sources: src/cpu.h
 
 common warnings
     ghc-options: -Wall -optl -Wl,--export=greet -optl -Wl,--export=hs_init -optl -Wl,--allow-undefined -no-hs-main -optl-mexec-model=reactor 
