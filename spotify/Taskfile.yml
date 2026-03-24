@@ -1,0 +1,33 @@
+version: '3'
+
+vars:
+  BINARY: 'spotify'
+  DISTPATH: '.'
+
+tasks:
+  build:
+    cmds:
+      - |
+        extism-py src/uptime.py -o {{.BINARY}}.wasm
+
+  optimize:
+    cmds:
+      - wasm-opt -Os {{.DISTPATH}}/{{.BINARY}}.wasm --output ./{{.BINARY}}.wasm
+
+  strip:
+    cmds:
+      - wasm-strip ./{{.BINARY}}.wasm
+
+  run:
+    cmds:
+      - extism call --wasi \ --log-level=debug \ ./{{.BINARY}}.wasm run
+
+  install:
+      cmds:
+        - curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+
+  default:
+    cmds:
+      - task: build
+      - task: optimize
+      - task: strip

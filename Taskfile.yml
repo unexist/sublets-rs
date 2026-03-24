@@ -17,6 +17,10 @@ includes:
     taskfile: mem/Taskfile.yml
     dir: mem
 
+  mem:
+    taskfile: mem/Taskfile.yml
+    dir: mem
+
   time:
     taskfile: time/Taskfile.yml
     dir: time
