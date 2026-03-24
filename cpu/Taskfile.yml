@@ -2,7 +2,8 @@ version: '3'
 
 vars:
   BINARY: 'cpu'
-  DISTPATH: 'dist-newstyle/**/build/cpu'
+  DISTPATH:
+    sh: find ./dist-newstyle -path '*/build/cpu'
 
 env:
   GHC_WASM_PATH: '{{.HOME}}/.ghc-wasm'
