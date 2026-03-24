@@ -51,6 +51,9 @@ proptest-regressions/
 **/dist/
 **/node_modules/
 
+# MoonBit
+**/.mooncakes
+
 # Wasm
 **/*.wasm
 
