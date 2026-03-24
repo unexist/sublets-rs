@@ -1,0 +1,12 @@
+{
+  "name": "unexist/spotify",
+  "version": "0.1.0",
+  "deps": {
+    "extism/moonbit-pdk": "0.47.12"
+  },
+  "readme": "../README.adoc",
+  "repository": "",
+  "license": "GPLv3",
+  "keywords": [],
+  "description": ""
+}
